@@ -1,10 +1,10 @@
-# Ignore the virtual environment
-venv/
+# Backend Environment
+backend/venv/
+backend/__pycache__/
 
-# Ignore Python cache files
-__pycache__/
+# User Uploads
+backend/uploads/
 
-# Ignore user uploaded photos (we don't want test photos going to GitHub)
-uploads/
-
-test_upload.py
+# Local Testing
+backend/test_upload.py
+backend/fake_photo.jpg
