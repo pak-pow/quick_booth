@@ -22,6 +22,32 @@ def status():
 # Image Upload Route
 @app.route('/api/upload', methods=['POST']) #type: ignore
 def upload_image():
-    # 1. Check if the request actually contains a file named 'image'
+    
+    # Check if the request actually contains a file named 'image'
     if 'image' not in request.files:
         return jsonify({"error": "No image sent in request"}), 400
+    
+    file = request.files['image']
+    
+    # Check if a file was selected
+    if file.filename == '':
+        return jsonify({"error": "No file selected"}), 400
+        
+    # If the file exists, secure it, rename it, and save it
+    if file:
+        # Sanitize the filename for safety
+        safe_filename = secure_filename(file.filename) # type: ignore
+        
+        # Generate a unique ID and attach it to the front of the filename
+        unique_id = uuid.uuid4().hex
+        final_filename = f"{unique_id}_{safe_filename}"
+        
+        # Create the full path and save the file
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], final_filename)
+        file.save(filepath)
+        
+        # Send a success response back to the frontend
+        return jsonify({
+            "message": "Image successfully uploaded!",
+            "filename": final_filename
+        }), 200
