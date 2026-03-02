@@ -6,3 +6,5 @@ __pycache__/
 
 # Ignore user uploaded photos (we don't want test photos going to GitHub)
 uploads/
+
+test_upload.py
